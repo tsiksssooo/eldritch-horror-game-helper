@@ -1,0 +1,67 @@
+body {
+    box-sizing: border-box;
+    color: white;
+}
+
+h1 {
+    color: white;
+}
+
+.wrapper {
+    background-image: url(./assets/home.png);
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+    min-width: 100vw;
+}
+
+.game-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.boss-selection-div{
+    display: flex;
+    flex-direction: column;
+    max-width: 8%;
+}
+
+.difficulty-selector-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.difficulty-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 70px;
+    background-color: rgb(4, 24, 63);
+    margin: 10px;
+}
+
+.deck-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.shuffle-cards {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 70px;
+    background-color: rgb(4, 24, 63);
+    margin: 10px; 
+}
