@@ -132,6 +132,7 @@ const formMiniDecks = function () {
 
 //////////////////////////// SHUFFLE DECK END ////////////////////////////
 let activeDeck;
+let cardColour;
 let count = 0;
 
 const setDecks = function(n) {
@@ -146,12 +147,15 @@ const restart = function() {
 const showCard = function(deck) {
 
     if (activeDeck.length > 0) {
+        cardColour = deck[0].color;
+        updateCounter(count, cardColour);
         let currentCardFace = document.querySelector('.current-card');
         let currentImage = document.querySelector('.current-image');
         currentCardFace.style.display = 'flex';
-        currentImage.src = `/assets/MythicCards/${deck[0].color}/${deck[0].id}.png`
+        currentImage.src = `/assets/MythicCards/${deck[0].color}/${deck[0].id}.png`;
+
+        console.log(cardColour);
         currentImage.style.display = 'flex';
-        console.log(activeDeck);
         activeDeck = deck.slice(1);
 
     } else if (count < 2) {
@@ -166,11 +170,89 @@ const showCard = function(deck) {
 
 }
 
-const playCard = function(){
-    showCard(activeDeck)
+const setCounter = function () {
+    let deck1 = setDecks(0);
+    let deck2 = setDecks(1);
+    let deck3 = setDecks(2);
+    let green1 = 0;
+    let green2 = 0;
+    let green3 = 0;
+    let brown1 = 0;
+    let brown2 = 0;
+    let brown3 = 0;
+    let blue1 = 0;
+    let blue2 = 0;
+    let blue3 = 0;
+    for (let i= 0; i<deck1.length; i++) {
+        if (deck1[i].color === 'brown') {
+            brown1++
+        } else if (deck1[i].color === 'blue') {
+            blue1++
+        } else {
+            green1++
+        };
+    };
+    for (let i= 0; i<deck2.length; i++) {
+        if (deck2[i].color === 'brown') {
+            brown2++
+        } else if (deck2[i].color === 'blue') {
+            blue2++
+        } else {
+            green2++
+        };
+    };
+    for (let i= 0; i<deck3.length; i++) {
+        if (deck3[i].color === 'brown') {
+            brown3++
+        } else if (deck3[i].color === 'blue') {
+            blue3++
+        } else {
+            green3++
+        };
+    };
+    document.querySelector('.green-cards1').textContent = green1;
+    document.querySelector('.brown-cards1').textContent = brown1;
+    document.querySelector('.blue-cards1').textContent = blue1;
+    document.querySelector('.green-cards2').textContent = green2;
+    document.querySelector('.brown-cards2').textContent = brown2;
+    document.querySelector('.blue-cards2').textContent = blue2;
+    document.querySelector('.green-cards3').textContent = green3;
+    document.querySelector('.brown-cards3').textContent = brown3;
+    document.querySelector('.blue-cards3').textContent = blue3;
+};
+
+const updateCounter = function(count, cardColour) {
+    if (count === 0) {
+        if (cardColour === 'brown') {
+            document.querySelector('.brown-cards1').textContent--;           
+        } else if (cardColour === 'blue') {
+            document.querySelector('.blue-cards1').textContent--;            
+        } else {
+            document.querySelector('.green-cards1').textContent--;   
+        }
+    } else if (count === 1) {
+        if (cardColour === 'brown') {
+            document.querySelector('.brown-cards2').textContent--;           
+        } else if (cardColour === 'blue') {
+            document.querySelector('.blue-cards2').textContent--;            
+        } else {
+            document.querySelector('.green-cards2').textContent--;   
+        } 
+    } else {
+        if (cardColour === 'brown') {
+            document.querySelector('.brown-cards3').textContent--;           
+        } else if (cardColour === 'blue') {
+            document.querySelector('.blue-cards3').textContent--;            
+        } else {
+            document.querySelector('.green-cards3').textContent--;   
+        }    
+    }
 }
 
 
+const playCard = function(){
+    showCard(activeDeck);
+}
 
 
 const startGame = function () {
@@ -180,7 +262,9 @@ const startGame = function () {
         shuffleBtn.style.display = 'none';
         nextCard.style.display = 'flex';
         activeDeck = setDecks(count);
+        setCounter();
         showCard(activeDeck);
+
     }
 }
 
@@ -191,4 +275,3 @@ nextCard.addEventListener('click', playCard);
 
 
 
-//////////////////////////// SHUFFLE DECK END ////////////////////////////
