@@ -71,3 +71,47 @@ h1 {
 .game-boss-card {
     border: 5px solid #555;
 }
+
+.next-card {
+    display: none;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 205px;
+    height: 70px;
+    background-color: rgb(4, 24, 63);
+    margin: 10px; 
+    border: 5px solid green;
+}
+
+.current-card {
+    display: none;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 205px;
+    height: auto;
+    margin: 10px; 
+}
+
+.current-image {
+    width: 100%;
+}
+
+.blocker {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(4, 24, 63, 0.6);
+}
+
+.blocker-text {
+    color: red;
+    font-family: 'Rubik Burned', cursive;
+    font-size: 50px;
+
+}
