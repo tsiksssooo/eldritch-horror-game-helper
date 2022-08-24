@@ -257,7 +257,7 @@ const playCard = function(){
 
 const startGame = function () {
     if (chosenDifficultyLevel === '' || chosenBoss === '') {
-        alert('Please select the Boss and the Difficulty level')
+        alert('Please select one of the Ancients and Difficulty level')
     } else {
         shuffleBtn.style.display = 'none';
         nextCard.style.display = 'flex';
@@ -271,6 +271,7 @@ const startGame = function () {
 
 shuffleBtn.addEventListener('click', startGame);
 nextCard.addEventListener('click', playCard);
+document.querySelector('.reload-btn').addEventListener('click', restart);
 
 
 
