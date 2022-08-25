@@ -35,7 +35,7 @@ const selectLevel = function () {
     chosenDifficultyLevel = this.innerHTML;
     resetLevel();
     this.style.border = 'dashed red';
-
+    document.querySelector('.arrow').style.display = 'none';
 }
 
 const resetLevel = function () {
@@ -55,96 +55,129 @@ for (let i = 0; i < level.length; i++) {
 const shuffleBtn = document.querySelector('.shuffle-cards');
 const nextCard = document.querySelector('.next-card');
 
-const shuffleArray = function(array) {
+const shuffleArray = function (array) {
     for (let i = array.length - 1; i > 0; i--) {
         let j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
-      };
-      return(array);
     };
+    return (array);
+};
+
+let decksArray = [];
 
 const formMiniDecks = function () {
     let stageOneDeck = [];
     let stageTwoDeck = [];
     let stageThreeDeck = [];
     const bossData = ancientsData.find(element => element.id === chosenBoss);
+    let filteredDeckArray = filterDeck(chosenDifficultyLevel);
     let firstStageCards = bossData.firstStage;
     let secondStageCards = bossData.secondStage;
     let thirdStageCards = bossData.thirdStage;
     let greenCardsNumber = firstStageCards.greenCards + secondStageCards.greenCards + thirdStageCards.greenCards;
     let brownCardsNumber = firstStageCards.brownCards + secondStageCards.brownCards + thirdStageCards.brownCards;
     let blueCardsNumber = firstStageCards.blueCards + secondStageCards.blueCards + thirdStageCards.blueCards;
-    let shuffledGreenArray = shuffleArray(greenCardsData).slice(0, greenCardsNumber);
-    let shuffledBrownArray = shuffleArray(brownCardsData).slice(0, brownCardsNumber);
-    let shuffledBlueArray = shuffleArray(blueCardsData).slice(0, blueCardsNumber);
+    let shuffledGreenArray = shuffleArray(filteredDeckArray[0]).slice(0, greenCardsNumber);
+    let shuffledBrownArray = shuffleArray(filteredDeckArray[2]).slice(0, brownCardsNumber);
+    let shuffledBlueArray = shuffleArray(filteredDeckArray[1]).slice(0, blueCardsNumber);
 
-    for (let i=0; i < bossData.firstStage.greenCards; i++) {
+    for (let i = 0; i < bossData.firstStage.greenCards; i++) {
         stageOneDeck.push(shuffledGreenArray[i]);
     }
     shuffledGreenArray = shuffledGreenArray.slice(firstStageCards.greenCards);
 
-    for (let i=0; i < bossData.firstStage.brownCards; i++) {
+    for (let i = 0; i < bossData.firstStage.brownCards; i++) {
         stageOneDeck.push(shuffledBrownArray[i]);
     }
     shuffledBrownArray = shuffledBrownArray.slice(firstStageCards.brownCards);
 
-    for (let i=0; i < bossData.firstStage.blueCards; i++) {
+    for (let i = 0; i < bossData.firstStage.blueCards; i++) {
         stageOneDeck.push(shuffledBlueArray[i]);
     }
     shuffledBlueArray = shuffledBlueArray.slice(firstStageCards.blueCards);
     shuffleArray(stageOneDeck);
 
-    for (let i=0; i < bossData.secondStage.greenCards; i++) {
+    for (let i = 0; i < bossData.secondStage.greenCards; i++) {
         stageTwoDeck.push(shuffledGreenArray[i]);
     }
     shuffledGreenArray = shuffledGreenArray.slice(secondStageCards.greenCards);
 
-    for (let i=0; i < bossData.secondStage.brownCards; i++) {
+    for (let i = 0; i < bossData.secondStage.brownCards; i++) {
         stageTwoDeck.push(shuffledBrownArray[i]);
     }
     shuffledBrownArray = shuffledBrownArray.slice(secondStageCards.brownCards);
 
-    for (let i=0; i < bossData.secondStage.blueCards; i++) {
+    for (let i = 0; i < bossData.secondStage.blueCards; i++) {
         stageTwoDeck.push(shuffledBlueArray[i]);
     }
     shuffledBlueArray = shuffledBlueArray.slice(secondStageCards.blueCards);
     shuffleArray(stageTwoDeck);
 
-    for (let i=0; i < bossData.thirdStage.greenCards; i++) {
+    for (let i = 0; i < bossData.thirdStage.greenCards; i++) {
         stageThreeDeck.push(shuffledGreenArray[i]);
     }
     shuffledGreenArray = shuffledGreenArray.slice(thirdStageCards.greenCards);
 
-    for (let i=0; i < bossData.thirdStage.brownCards; i++) {
+    for (let i = 0; i < bossData.thirdStage.brownCards; i++) {
         stageThreeDeck.push(shuffledBrownArray[i]);
     }
     shuffledBrownArray = shuffledBrownArray.slice(thirdStageCards.brownCards);
 
-    for (let i=0; i < bossData.thirdStage.blueCards; i++) {
+    for (let i = 0; i < bossData.thirdStage.blueCards; i++) {
         stageThreeDeck.push(shuffledBlueArray[i]);
     }
     shuffledBlueArray = shuffledBlueArray.slice(thirdStageCards.blueCards);
     shuffleArray(stageThreeDeck);
 
-
-    return [stageOneDeck, stageTwoDeck, stageThreeDeck];
+    decksArray = [stageOneDeck, stageTwoDeck, stageThreeDeck];
+    return decksArray;
 };
+
+
+
+const filterDeck = function (level) {
+    let greenCardsDataFiltered;
+    let blueCardsDataFiltered;
+    let brownCardsDataFiltered;
+    let filteredDeckArray;
+    if (level === 'NORMAL') {
+        greenCardsDataFiltered = greenCardsData;
+        blueCardsDataFiltered = blueCardsData;
+        brownCardsDataFiltered = brownCardsData;
+        filteredDeckArray = [greenCardsDataFiltered, blueCardsDataFiltered, brownCardsDataFiltered]
+        return filteredDeckArray;
+    } else if (level === "EASY") {
+        greenCardsDataFiltered = greenCardsData.filter(element => element.difficulty != 'hard');
+        blueCardsDataFiltered = blueCardsData.filter(element => element.difficulty != 'hard');
+        brownCardsDataFiltered = brownCardsData.filter(element => element.difficulty != 'hard');
+        filteredDeckArray = [greenCardsDataFiltered, blueCardsDataFiltered, brownCardsDataFiltered]
+        return filteredDeckArray;
+    } else {
+        greenCardsDataFiltered = greenCardsData.filter(element => element.difficulty != 'easy');
+        blueCardsDataFiltered = blueCardsData.filter(element => element.difficulty != 'easy');
+        brownCardsDataFiltered = brownCardsData.filter(element => element.difficulty != 'easy');
+        filteredDeckArray = [greenCardsDataFiltered, blueCardsDataFiltered, brownCardsDataFiltered]
+        return filteredDeckArray;
+    }
+}
+
+
 
 //////////////////////////// SHUFFLE DECK END ////////////////////////////
 let activeDeck;
 let cardColour;
 let count = 0;
 
-const setDecks = function(n) {
-let decksArray = formMiniDecks();
-return decksArray[n];
+const setDecks = function (n) {
+    let decksArray = formMiniDecks();
+    return decksArray[n];
 };
 
-const restart = function() {
+const restart = function () {
     location.reload();
 }
 
-const showCard = function(deck) {
+const showCard = function (deck) {
 
     if (activeDeck.length > 0) {
         cardColour = deck[0].color;
@@ -153,15 +186,12 @@ const showCard = function(deck) {
         let currentImage = document.querySelector('.current-image');
         currentCardFace.style.display = 'flex';
         currentImage.src = `/assets/MythicCards/${deck[0].color}/${deck[0].id}.png`;
-
-        console.log(cardColour);
         currentImage.style.display = 'flex';
         activeDeck = deck.slice(1);
 
     } else if (count < 2) {
-        console.log('Here Comes a new deck')
         count++;
-        activeDeck = setDecks(count)
+        activeDeck = decksArray[count];
         showCard(activeDeck);
     } else {
         document.querySelector('.blocker').style.display = 'flex';
@@ -171,9 +201,9 @@ const showCard = function(deck) {
 }
 
 const setCounter = function () {
-    let deck1 = setDecks(0);
-    let deck2 = setDecks(1);
-    let deck3 = setDecks(2);
+    let deck1 = decksArray[0];
+    let deck2 = decksArray[1];
+    let deck3 = decksArray[2];
     let green1 = 0;
     let green2 = 0;
     let green3 = 0;
@@ -183,7 +213,7 @@ const setCounter = function () {
     let blue1 = 0;
     let blue2 = 0;
     let blue3 = 0;
-    for (let i= 0; i<deck1.length; i++) {
+    for (let i = 0; i < deck1.length; i++) {
         if (deck1[i].color === 'brown') {
             brown1++
         } else if (deck1[i].color === 'blue') {
@@ -192,7 +222,7 @@ const setCounter = function () {
             green1++
         };
     };
-    for (let i= 0; i<deck2.length; i++) {
+    for (let i = 0; i < deck2.length; i++) {
         if (deck2[i].color === 'brown') {
             brown2++
         } else if (deck2[i].color === 'blue') {
@@ -201,7 +231,7 @@ const setCounter = function () {
             green2++
         };
     };
-    for (let i= 0; i<deck3.length; i++) {
+    for (let i = 0; i < deck3.length; i++) {
         if (deck3[i].color === 'brown') {
             brown3++
         } else if (deck3[i].color === 'blue') {
@@ -221,36 +251,36 @@ const setCounter = function () {
     document.querySelector('.blue-cards3').textContent = blue3;
 };
 
-const updateCounter = function(count, cardColour) {
+const updateCounter = function (count, cardColour) {
     if (count === 0) {
         if (cardColour === 'brown') {
-            document.querySelector('.brown-cards1').textContent--;           
+            document.querySelector('.brown-cards1').textContent--;
         } else if (cardColour === 'blue') {
-            document.querySelector('.blue-cards1').textContent--;            
+            document.querySelector('.blue-cards1').textContent--;
         } else {
-            document.querySelector('.green-cards1').textContent--;   
+            document.querySelector('.green-cards1').textContent--;
         }
     } else if (count === 1) {
         if (cardColour === 'brown') {
-            document.querySelector('.brown-cards2').textContent--;           
+            document.querySelector('.brown-cards2').textContent--;
         } else if (cardColour === 'blue') {
-            document.querySelector('.blue-cards2').textContent--;            
+            document.querySelector('.blue-cards2').textContent--;
         } else {
-            document.querySelector('.green-cards2').textContent--;   
-        } 
+            document.querySelector('.green-cards2').textContent--;
+        }
     } else {
         if (cardColour === 'brown') {
-            document.querySelector('.brown-cards3').textContent--;           
+            document.querySelector('.brown-cards3').textContent--;
         } else if (cardColour === 'blue') {
-            document.querySelector('.blue-cards3').textContent--;            
+            document.querySelector('.blue-cards3').textContent--;
         } else {
-            document.querySelector('.green-cards3').textContent--;   
-        }    
+            document.querySelector('.green-cards3').textContent--;
+        }
     }
 }
 
 
-const playCard = function(){
+const playCard = function () {
     showCard(activeDeck);
 }
 
