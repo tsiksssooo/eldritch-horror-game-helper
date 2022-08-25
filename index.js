@@ -185,7 +185,7 @@ const showCard = function (deck) {
         let currentCardFace = document.querySelector('.current-card');
         let currentImage = document.querySelector('.current-image');
         currentCardFace.style.display = 'flex';
-        currentImage.src = `/assets/MythicCards/${deck[0].color}/${deck[0].id}.png`;
+        currentImage.src = `assets/MythicCards/${deck[0].color}/${deck[0].id}.png`;
         currentImage.style.display = 'flex';
         activeDeck = deck.slice(1);
 
